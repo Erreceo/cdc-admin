@@ -4,9 +4,23 @@ import './css/pure-min.css';
 import './css/side-menu.css';
 
 class App extends Component {
+
+  constructor (){
+    super();
+    this.state = {lista:[]};
+  }
+
+  componentDidMount(){
+    const that = this;  
+    fetch("https://cdc-react.herokuapp.com/api/autores")
+      .then( response => response.text() )
+      .then(jsonData => that.setState({ lista: JSON.parse(jsonData) }));
+
+  }
+
   render() {
     return (
-<div id="layout">
+      <div id="layout">
         {/* Menu toggle */}
         <a href="#menu" id="menuLink" className="menu-link">
           {/* Hamburger icon */}
@@ -31,11 +45,11 @@ class App extends Component {
                 <form className="pure-form pure-form-aligned">
                   <div className="pure-control-group">
                     <label htmlFor="nome">Nome</label> 
-                    <input id="nome" type="text" name="nome" value=""  />                  
+                    <input id="nome" type="text" name="nome"   />                  
                   </div>
                   <div className="pure-control-group">
                     <label htmlFor="email">Email</label> 
-                    <input id="email" type="email" name="email" value=""  />                  
+                    <input id="email" type="email" name="email"   />                  
                   </div>
                   <div className="pure-control-group">
                     <label htmlFor="senha">Senha</label> 
@@ -57,10 +71,20 @@ class App extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Alberto</td>                
-                      <td>alberto.souza@caelum.com.br</td>                
-                    </tr>
+                      {
+                          this.state.lista.map((autor)=>{
+                            return (
+                              <tr key={autor.id}>
+                                <td>
+                                  {autor.nome}
+                                </td>
+                                <td>
+                                  {autor.email}
+                                </td>
+                              </tr>
+                            )
+                          })
+                      }
                   </tbody>
                 </table> 
               </div>             
