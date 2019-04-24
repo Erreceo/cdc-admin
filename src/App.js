@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import './css/pure-min.css';
 import './css/side-menu.css';
 import InputCustomizado from './components/InputCustomizado';
-import InputSubmit from './components/InputSubmit'
+import InputSubmit from './components/InputSubmit';
+import HttpService from './service/HttpService';
+import Autor from './model/Autor';
 
 class App extends Component {
 
@@ -14,36 +16,20 @@ class App extends Component {
     this.setNome = this.setNome.bind(this);
     this.setSenha = this.setSenha.bind(this);
     this.enviaForm = this.enviaForm.bind(this);
+    //this.url = 'http://localhost:8080/api/autores';
+    this.url = "https://cdc-react.herokuapp.com/api/autores";
+    this.service = new HttpService();
   }
 
   componentDidMount(){
-    const that = this;  
-
-    //let url = "https://cdc-react.herokuapp.com/api/autores";
-    let url = 'http://localhost:8080/api/autores';
-
-    fetch(url)
-      .then( response => response.text() )
-      .then(jsonData => that.setState({ lista: JSON.parse(jsonData) }));
-
+    this.service.get( this.url ) 
+      .then( jsonData => this.setState({ lista: jsonData }) );
   }
 
   enviaForm( evento ){
     evento.preventDefault();
-    
-    console.log('envia Form');
-
-
-    fetch('http://localhost:8080/api/autores', {
-      method : 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body : JSON.stringify({nome: this.state.nome, email: this.state.email, senha: this.state.senha})
-    }).then( response => response.text())
-      .then(response => this.setState({lista: JSON.parse(response)}))
-    .catch(err => console.log(err));
+    this.service.post(this.url, {nome:this.state.nome, email:this.state.email, senha:this.state.senha})
+          .then(jsonData => this.setState({lista: jsonData}));
   }
 
   setNome(event){
@@ -87,24 +73,7 @@ class App extends Component {
                   <InputCustomizado label="Email" id="email" type="email" name="email" value={this.state.email} onChange={this.setEmail}/>
                   <InputCustomizado label="Senha" id="senha" type="password" name="senha" value={this.state.senha} onChange={this.setSenha}/>
                   <InputSubmit type="submit" label="Gravar"/>
-                  {/* <div className="pure-control-group">
-                    <label htmlFor="nome">Nome</label> 
-                    <input id="nome" type="text" name="nome"   value={this.state.nome} onChange={this.setNome}/>                  
-                  </div> */}
-                  {/* <div className="pure-control-group">
-                    <label htmlFor="email">Email</label> 
-                    <input id="email" type="email" name="email"   value={this.state.email} onChange={this.setEmail}/>                  
-                  </div> */}
-                  {/* <div className="pure-control-group">
-                    <label htmlFor="senha">Senha</label> 
-                    <input id="senha" type="password" name="senha"  value={this.state.senha} onChange={this.setSenha}/>                                      
-                  </div> */}
-                  {/* <div className="pure-control-group">                                  
-                    <label></label> 
-                    <button type="submit" className="pure-button pure-button-primary">Gravar</button>                                    
-                  </div> */}
                 </form>             
-
               </div>  
               <div>            
                 <table className="pure-table">
