@@ -120,8 +120,13 @@ export default class AutorBox extends Component {
 
         return (
             <div>
+              <div className="header">
+                <h1>Cadastro de Autor</h1>
+              </div>
+              <div className="content" id="content">
                 <FormularioAutor/>
-                <TabelaAutores lista={this.state.lista}/>
+                <TabelaAutores lista={this.state.lista}/>    
+              </div>  
             </div>
         );
     }

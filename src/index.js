@@ -3,9 +3,23 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
+import AutorBox from './components/Autor';
+import Home from './components/Home';
 
 ReactDOM.render(
-<App />
+(
+    <Router>
+        <App>
+            <Switch>
+                <Route exact path="/" component={Home}/>
+                <Route path="/autor" component={AutorBox}/>
+                <Route path="/livro"/>
+            </Switch> 
+        </App>
+    </Router>
+
+)
 ,document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
