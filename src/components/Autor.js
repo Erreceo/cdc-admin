@@ -14,8 +14,8 @@ class FormularioAutor extends Component{
         this.setNome = this.setNome.bind(this);
         this.setSenha = this.setSenha.bind(this);
         this.enviaForm = this.enviaForm.bind(this);
-        //this.url = 'http://localhost:8080/api/autores';
-        this.url = "https://cdc-react.herokuapp.com/api/autores";
+        this.url = 'http://localhost:8080/api/autores';
+        //this.url = "https://cdc-react.herokuapp.com/api/autores";
         this.service = new HttpService();
     }
 
@@ -102,9 +102,8 @@ export default class AutorBox extends Component {
         super();
         this.state = {lista:[]};
         this.service = new HttpService();
-        this.service = this.service;
-        this.url = "https://cdc-react.herokuapp.com/api/autores";
-        //this.url = 'http://localhost:8080/api/autores';
+        //this.url = "https://cdc-react.herokuapp.com/api/autores";
+        this.url = 'http://localhost:8080/api/autores';
     }
     
     componentDidMount(){
