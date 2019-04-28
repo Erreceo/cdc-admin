@@ -11,27 +11,17 @@ class FormularioLivro extends Component{
     constructor(){
         super();
         this.state = {titulo: '', preco: '', autorId: '', autores: []};
-        this.setAutor = this.setAutor.bind(this);
-        this.setPreco = this.setPreco.bind(this);
-        this.setTitulo = this.setTitulo.bind(this);
-
-        this.url = 'http://localhost:8080/api/livros';
-        //this.url = "https://cdc-react.herokuapp.com/api/livros";
-        this.url_autores = 'http://localhost:8080/api/autores';
+    
+        //this.url = 'http://localhost:8080/api/livros';
+        this.url = "https://cdc-react.herokuapp.com/api/livros";
+        //this.url_autores = 'http://localhost:8080/api/autores';
+        this.url_autores = 'https://cdc-react.herokuapp.com/api/autores';
         this.service = new HttpService();
         this.enviaForm = this.enviaForm.bind(this);
     }
     
-    setTitulo(event){
-        this.setState({titulo: event.target.value});
-    }
-
-    setPreco(event){
-        this.setState({preco: event.target.value});
-    }
-
-    setAutor(event){
-        this.setState({autorId: event.target.value});
+    salvaAlteracao(nomeImput, event){
+      this.setState({[nomeImput]: event.target.value});
     }
 
     /**
@@ -53,9 +43,9 @@ class FormularioLivro extends Component{
     render(){
         return (<div className="pure-form pure-form-aligned">
         <form className="pure-form pure-form-aligned"  onSubmit={this.enviaForm} method="post">
-          <InputCustomizado label="Titulo" id="titulo" type="text" name="titulo" value={this.state.titulo} onChange={this.setTitulo}/>
-          <InputCustomizado label="Pre&ccedil;o" id="preco" type="text" name="preco" value={this.state.preco} onChange={this.setPreco}/>
-          <SelectComponent label="Autor" autorId={this.state.autorId} name="autorId" onChange={this.setAutor} primeira_opcao="Selecione" autores={this.state.autores}/>
+          <InputCustomizado label="Titulo" id="titulo" type="text" name="titulo" value={this.state.titulo} onChange={this.salvaAlteracao.bind(this, 'titulo')}/>
+          <InputCustomizado label="Pre&ccedil;o" id="preco" type="number" step="any" name="preco" value={this.state.preco} onChange={this.salvaAlteracao.bind(this, 'preco')}/>
+          <SelectComponent label="Autor" autorId={this.state.autorId} name="autorId" primeira_opcao="Selecione" autores={this.state.autores} onChange={this.salvaAlteracao.bind(this, 'autorId')} />
           <InputSubmit type="submit" label="Gravar"/>
         </form>             
       </div>)
@@ -123,8 +113,8 @@ export default class LivroBox extends Component{
         super();
         this.state = {listaLivros: []};
         this.service = new HttpService();
-        //this.url = "https://cdc-react.herokuapp.com/api/livros";
-        this.url = 'http://localhost:8080/api/livros';
+        this.url = "https://cdc-react.herokuapp.com/api/livros";
+        //this.url = 'http://localhost:8080/api/livros';
     }
     componentDidMount(){
         const that = this;
